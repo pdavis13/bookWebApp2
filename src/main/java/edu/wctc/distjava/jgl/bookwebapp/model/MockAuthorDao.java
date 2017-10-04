@@ -35,7 +35,13 @@ public class MockAuthorDao implements IAuthorDao {
         return list;
     }
     
-    
+    @Override
+    public int deleteAuthors(String colName, Object keyValue) throws SQLException, ClassNotFoundException {
+        
+        int deletedAuthorsCount = 0;
+        
+        return deletedAuthorsCount;
+    }
     
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
        // IAuthorDao dao = new MockAuthorDao(

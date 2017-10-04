@@ -18,6 +18,7 @@ import java.util.Vector;
  * @author L117student
  */
 public class AuthorDao implements IAuthorDao {
+    private String TABLE_NAME = "author";
     private String driverClass;
     private String url;
     private String userName;
@@ -36,7 +37,7 @@ public class AuthorDao implements IAuthorDao {
     public List<Author> getListOfAuthors() throws SQLException, ClassNotFoundException {
         
         List<Author> list = new Vector<>();
-        List<Map<String,Object>> rawData = db.getAllRecords("author", 0);
+        List<Map<String,Object>> rawData = db.getAllRecords(TABLE_NAME, 0);
         
         Author author = null;
         
@@ -73,6 +74,14 @@ public class AuthorDao implements IAuthorDao {
         }
         
         return list;
+    }
+    
+    @Override
+    public int deleteAuthors(String colName, Object keyValue) throws SQLException, ClassNotFoundException {
+        
+        int deletedRecordsCount = db.deleteRecords(TABLE_NAME, colName, keyValue);
+        
+        return deletedRecordsCount;
     }
     
     public DataAccess getDb() {

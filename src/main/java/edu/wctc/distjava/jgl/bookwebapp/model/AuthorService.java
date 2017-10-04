@@ -20,6 +20,10 @@ public class AuthorService {
     public List<Author> getAuthorList() throws SQLException, ClassNotFoundException {
         return authorDao.getListOfAuthors();
     }
+    
+    public int deleteAuthors(String colName, Object keyValue) throws SQLException, ClassNotFoundException {
+        return authorDao.deleteAuthors(colName, keyValue);
+    }
 
     public IAuthorDao getAuthorDao() {
         return authorDao;

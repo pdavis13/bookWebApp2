@@ -84,7 +84,7 @@ public class MySqlDataAccess implements DataAccess {
         return rawData;
     }
     
-    public int deleteRecord(String tableName, String colName, Object keyValue) 
+    public int deleteRecords(String tableName, String colName, Object keyValue) 
             throws SQLException, ClassNotFoundException {
         
         int deletedCount = 0;

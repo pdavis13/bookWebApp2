@@ -87,6 +87,23 @@ public class MsSqlServerDataAccess implements DataAccess {
         return rawData;
     }
 
+    public int deleteRecords(String tableName, String colName, Object keyValue) 
+            throws SQLException, ClassNotFoundException {
+        
+        int deletedCount = 0;
+        String sql = "";
+
+        sql = "DELETE FROM " + tableName + " WHERE " + colName + " = " + keyValue;
+        
+        openConnection();
+        stmt = conn.createStatement();
+        deletedCount = stmt.executeUpdate(sql);
+        
+        closeConnection();
+        
+        return deletedCount;
+    }
+    
     @Override
     public String getDriverClass() {
         return driverClass;
