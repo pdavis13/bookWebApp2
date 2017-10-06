@@ -36,7 +36,7 @@ public class MockAuthorDao implements IAuthorDao {
     }
     
     @Override
-    public int deleteAuthors(String colName, Object keyValue) throws SQLException, ClassNotFoundException {
+    public int deleteAuthorByID(Integer Id) throws SQLException, ClassNotFoundException {
         
         int deletedAuthorsCount = 0;
         
@@ -50,9 +50,7 @@ public class MockAuthorDao implements IAuthorDao {
             "com.mysql.jdbc.Driver",
             "jdbc:mysql://localhost:3306/book",
             "root", "admin",
-            new MySqlDataAccess("com.mysql.jdbc.Driver",
-            "jdbc:mysql://localhost:3306/book",
-            "root", "admin")
+            new MySqlDataAccess()
         );
         
         List<Author> list = dao.getListOfAuthors();

@@ -19,6 +19,7 @@ import java.util.Vector;
  */
 public class AuthorDao implements IAuthorDao {
     private String TABLE_NAME = "author";
+    private String TABLE_PK = "author_id";
     private String driverClass;
     private String url;
     private String userName;
@@ -33,8 +34,18 @@ public class AuthorDao implements IAuthorDao {
         setDb(db);
     }
     
+//    public int addAuthor(Author author) {
+//        
+//    }
+//    
+//    public int addAuthor(List<String> colName, List<Object> colValues) {
+//        
+//    }
+    
     @Override
     public List<Author> getListOfAuthors() throws SQLException, ClassNotFoundException {
+        
+        db.openConnection(driverClass, url, userName, password);
         
         List<Author> list = new Vector<>();
         List<Map<String,Object>> rawData = db.getAllRecords(TABLE_NAME, 0);
@@ -73,15 +84,21 @@ public class AuthorDao implements IAuthorDao {
             
         }
         
+        db.closeConnection();
+        
         return list;
     }
     
     @Override
-    public int deleteAuthors(String colName, Object keyValue) throws SQLException, ClassNotFoundException {
+    public int deleteAuthorByID(Integer id) throws SQLException, ClassNotFoundException {
         
-        int deletedRecordsCount = db.deleteRecords(TABLE_NAME, colName, keyValue);
+        db.openConnection(driverClass, url, userName, password);
         
-        return deletedRecordsCount;
+        int recsDeleted = db.deleteRecordByID(TABLE_NAME, TABLE_PK, id);
+        
+        db.closeConnection();
+        
+        return recsDeleted;
     }
     
     public DataAccess getDb() {
@@ -91,10 +108,6 @@ public class AuthorDao implements IAuthorDao {
     public void setDb(DataAccess db) {
         this.db = db;
     }
-
-    
-    
-    
 
     public String getDriverClass() {
         return driverClass;
@@ -133,9 +146,7 @@ public class AuthorDao implements IAuthorDao {
             "com.mysql.jdbc.Driver",
             "jdbc:mysql://localhost:3306/book",
             "root", "admin",
-            new MySqlDataAccess("com.mysql.jdbc.Driver",
-            "jdbc:mysql://localhost:3306/book",
-            "root", "admin")
+            new MySqlDataAccess()
         );
         
         List<Author> list = dao.getListOfAuthors();

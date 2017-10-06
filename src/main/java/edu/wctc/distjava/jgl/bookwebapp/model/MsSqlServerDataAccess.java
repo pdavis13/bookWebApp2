@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-public class MsSqlServerDataAccess implements DataAccess {
+public class MsSqlServerDataAccess {/*implements DataAccess {
     private final int ALL_RECORDS = 0;
 
     private Connection conn;
@@ -52,7 +52,7 @@ public class MsSqlServerDataAccess implements DataAccess {
      * @param maxRecords
      * @return
      * @throws SQLException 
-     */
+     *
     @Override
     public List<Map<String,Object>> getAllRecords(String tableName, int maxRecords) 
             throws SQLException, ClassNotFoundException {
@@ -104,46 +104,6 @@ public class MsSqlServerDataAccess implements DataAccess {
         return deletedCount;
     }
     
-    @Override
-    public String getDriverClass() {
-        return driverClass;
-    }
-
-    @Override
-    public final void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String getUserName() {
-        return userName;
-    }
-
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
         MsSqlServerDataAccess db = new MsSqlServerDataAccess(
@@ -159,5 +119,5 @@ public class MsSqlServerDataAccess implements DataAccess {
         }
         
     }
-    
+    */
 }
