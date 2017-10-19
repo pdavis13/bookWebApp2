@@ -105,17 +105,71 @@ public class MySqlDataAccess implements DataAccess {
         return rawData;
     }
     
+    public int updateRecord(String tableName, List<String> colNames, 
+            List<Object> colValues, String pkColName, Object pkValue) throws SQLException {
+        
+        int recsUpdated = 0;
+        
+        String sql = "UPDATE " + tableName + " SET ";
+        
+        StringJoiner sj = new StringJoiner(",");
+        
+        for(String colName : colNames){
+            sj.add(colName + " = ?");
+        }
+        sql += sj.toString();
+        
+        sql += " WHERE " + pkColName + " = " + " ? ";
+        pstmt = conn.prepareStatement(sql);
+        
+        for(int i = 0; i < colNames.size(); i++){
+            pstmt.setObject(i+1, colValues.get(i));
+        }
+        
+        pstmt.setObject(colNames.size()+1, pkValue);
+        recsUpdated = pstmt.executeUpdate();
+        
+        return recsUpdated;
+    }
+    
     public int deleteRecordByID(String tableName, String colName, Object keyValue) 
             throws SQLException, ClassNotFoundException {
         
         int deletedCount = 0;
         String sql = "";
 
-        sql = "DELETE FROM " + tableName + " WHERE " + colName + " = " + keyValue;
+        sql = "DELETE FROM " + tableName + " WHERE " + colName + " = ?";
         
         pstmt = conn.prepareStatement(sql);
         pstmt.setObject(1, keyValue);
         return pstmt.executeUpdate();
+    }
+    
+    @Override
+    public Map<String,Object> getRecordById(String tableName, String colName, Object keyValue) 
+            throws SQLException, ClassNotFoundException {
+        
+        String sql = "";
+        sql = "SELECT * FROM " + tableName + " WHERE " + colName + " = ?";
+        
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setObject(1, keyValue);
+        rs = pstmt.executeQuery();
+        
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int colCount = rsmd.getColumnCount();
+        Map<String,Object> record = null;
+        
+        while( rs.next() ) {
+            record = new LinkedHashMap<>();
+            for(int colNum=1; colNum <= colCount; colNum++) {
+                record.put(rsmd.getColumnName(colNum), rs.getObject(colNum));
+            }
+        }
+        
+        closeConnection();
+        
+        return record;
     }
        
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -133,9 +187,19 @@ public class MySqlDataAccess implements DataAccess {
                 Arrays.asList("Bob", "2010-02-02")
         );
         
+        int recsUpdated = db.updateRecord("author",
+                Arrays.asList("author_name", "date_added"),
+                Arrays.asList("Bill", "2013-02-02"),
+                "author_name", "Bob");
+        
+        //int recsDeleted = db.deleteRecordByID("author", "author_id", "3");
+        Map<String,Object> recRetrieved = db.getRecordById("author", "author_id", 16);
+        
         db.closeConnection();
         
         System.out.println("Recs created: " + recsAdded);
+        System.out.println("Recs updated: " + recsUpdated);
+        System.out.println("Rec retrieved: " + recRetrieved);
 //        db.openConnection(
 //                "com.mysql.jdbc.Driver",
 //                "jdbc:mysql://localhost:3306/book",

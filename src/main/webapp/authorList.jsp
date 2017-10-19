@@ -1,9 +1,3 @@
-<%-- 
-    Document   : authorList
-    Created on : Sep 19, 2017, 8:35:54 PM
-    Author     : jlombardo
---%>
-
 <%@page import="java.util.List"%>
 <%@page import="edu.wctc.distjava.jgl.bookwebapp.model.Author"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,16 +12,33 @@
     </head>
     <body>
         <h1>Author List</h1>
-        
+        <h2>${errMessage}</h2>
+        <form id="add" name="add" method="POST" action="authorController?action=form">
+            <button name="id" type="submit" value="add">Add</button>
+        </form>
+        <br />
         <table border="1">
             <c:forEach var="a" items="${authorList}">
                 <tr>
                     <td>${a.authorId}</td>
                     <td>${a.authorName}</td>
                     <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
+                    <td>
+                        <form id="edit${a.authorId}" name="edit${a.authorId}" method="POST" action="authorController?action=form">
+                            <button name="id" type="submit" value="${a.authorId}">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form id="delete${a.authorId}" name="delete${a.authorId}" method="POST" action="authorController?action=delete">
+                            <button name="delete" type="submit" value="${a.authorId}">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
-        
+        <br />
+        <form id="add" name="add" method="POST" action="authorController?action=form">
+            <button name="id" type="submit" value="add">Add</button>
+        </form>
     </body>
 </html>

@@ -26,7 +26,12 @@ public interface DataAccess {
     int createRecord(String tableName, List<String> colNames, 
             List<Object> colValues)  throws SQLException;
     
+    int updateRecord(String tableName, List<String> colNames, 
+            List<Object> colValues, String pkColName, Object pkValue) throws SQLException;
+    
     void openConnection(String driverClass, String url, String userName, String password) 
             throws ClassNotFoundException, SQLException;
     
+    public Map<String,Object> getRecordById(String tableName, String colName, Object keyValue) 
+            throws SQLException, ClassNotFoundException;
 }

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : Sep 19, 2017, 8:01:39 PM
-    Author     : jlombardo
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

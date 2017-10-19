@@ -34,13 +34,25 @@ public class AuthorService {
         return authorDao.getListOfAuthors();
     }
     
+    public Author getAuthorById(String id) throws SQLException, ClassNotFoundException {
+        return authorDao.getAuthorById(Integer.parseInt(id));
+    }
+    
     public int deleteAuthorByID(String id) throws SQLException, ClassNotFoundException {
         
         Integer value = Integer.parseInt(id);
         
         return authorDao.deleteAuthorByID(value);
     }
+    
+    public void addAuthor(List<Object> colValues) throws SQLException, ClassNotFoundException {
+        authorDao.addAuthor(colValues);
+    }
 
+    public void updateAuthorDetails(List<Object> colValues, Object pkValue) throws SQLException, ClassNotFoundException{
+        authorDao.updateAuthorDetails(colValues, pkValue);
+    }
+    
     public IAuthorDao getAuthorDao() {
         return authorDao;
     }
@@ -48,7 +60,7 @@ public class AuthorService {
     public void setAuthorDao(IAuthorDao authorDao) {
         this.authorDao = authorDao;
     }
-
+    
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         IAuthorDao dao = new AuthorDao(
             "com.mysql.jdbc.Driver",

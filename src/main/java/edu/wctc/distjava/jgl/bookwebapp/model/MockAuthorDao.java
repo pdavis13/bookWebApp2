@@ -43,9 +43,25 @@ public class MockAuthorDao implements IAuthorDao {
         return deletedAuthorsCount;
     }
     
+    @Override
+    public void addAuthor(List<Object> colValues) throws SQLException, ClassNotFoundException{
+                
+    }
+    
+    @Override
+    public Author getAuthorById(int id) throws SQLException, ClassNotFoundException{
+        return new Author(1,"John Doe", new Date());
+    }
+    
+    @Override
+    public int updateAuthorDetails(List<Object> colValues, Object pkValue) throws SQLException, ClassNotFoundException{
+        int updatedAuthors = 0;
+        
+        return updatedAuthors;
+    }
+    
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-       // IAuthorDao dao = new MockAuthorDao(
-       
+      
        IAuthorDao dao = new AuthorDao(
             "com.mysql.jdbc.Driver",
             "jdbc:mysql://localhost:3306/book",
