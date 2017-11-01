@@ -6,15 +6,13 @@
 package edu.wctc.distjava.jgl.bookwebapp.controller;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
-import edu.wctc.distjava.jgl.bookwebapp.model.AuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.model.AuthorService;
-import edu.wctc.distjava.jgl.bookwebapp.model.IAuthorDao;
-import edu.wctc.distjava.jgl.bookwebapp.model.MySqlDataAccess;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,10 +32,9 @@ public class AuthorController extends HttpServlet {
     public static final String DELETE = "delete";
     public static final String ADD = "add";
     public static final String FORM = "form";
-    private String driverClass;
-    private String url;
-    private String username;
-    private String password;
+    
+    @EJB
+    private AuthorService authorService;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,13 +53,6 @@ public class AuthorController extends HttpServlet {
         
         try {
             String action = request.getParameter(ACTION).toLowerCase();
-            
-            IAuthorDao dao = new AuthorDao(
-                driverClass, url, username, password,
-                new MySqlDataAccess()
-            );
-
-            AuthorService authorService = new AuthorService(dao); 
             
             List<Author> authorList = null;
             
@@ -115,14 +105,7 @@ public class AuthorController extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-        driverClass = getServletContext()
-        .getInitParameter("db.driver.class");
-        url = getServletContext()
-        .getInitParameter("db.url");
-        username = getServletContext()
-        .getInitParameter("db.username");
-        password = getServletContext()
-        .getInitParameter("db.password");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
