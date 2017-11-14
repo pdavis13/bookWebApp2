@@ -64,7 +64,7 @@ public class AuthorController extends HttpServlet {
                 case EDIT:
                     System.out.println(authorService.getAuthorById(request.getParameter("authorId")).getAuthorName());
                     List<Object> authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    authorService.updateAuthorDetails(authors, authorService.getAuthorById(request.getParameter("authorId")).getAuthorName());
+                    authorService.updateAuthorDetails(authors, authorService.getAuthorById(request.getParameter("authorId")).getAuthorId());
                     authorList = authorService.getAuthorList();
                     request.setAttribute("authorList", authorList);
                     break;
