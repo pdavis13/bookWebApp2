@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author L117student
  */
 @Stateless
-public class AuthorService extends AbstractFacade<Author> {
+public class BookFacade extends AbstractFacade<Book> {
 
     @PersistenceContext(unitName = "book_PU")
     private EntityManager em;
@@ -24,8 +24,8 @@ public class AuthorService extends AbstractFacade<Author> {
         return em;
     }
 
-    public AuthorService() {
-        super(Author.class);
+    public BookFacade() {
+        super(Book.class);
     }
     
 }

@@ -7,6 +7,7 @@ package edu.wctc.distjava.jgl.bookwebapp.controller;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import edu.wctc.distjava.jgl.bookwebapp.model.AuthorService;
+import edu.wctc.distjava.jgl.bookwebapp.model.AuthorServiceObsolete;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -58,32 +59,32 @@ public class AuthorController extends HttpServlet {
             
             switch(action) {
                 case LIST_ACTION:
-                    authorList = authorService.getAuthorList();
+                    authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case EDIT:
-                    System.out.println(authorService.getAuthorById(request.getParameter("authorId")).getAuthorName());
+                    System.out.println(authorService.find(request.getParameter("authorId")).getAuthorName());
                     List<Object> authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    authorService.updateAuthorDetails(authors, authorService.getAuthorById(request.getParameter("authorId")).getAuthorId());
-                    authorList = authorService.getAuthorList();
+                    authorService.updateAuthorDetails(authors, authorService.find(request.getParameter("authorId")).getAuthorId());
+                    authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case DELETE:
                     authorService.deleteAuthorById(request.getParameter("delete"));
-                    authorList = authorService.getAuthorList();
+                    authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case ADD:
                     authors = Arrays.asList(request.getParameter("authorName"), new Date());
                     authorService.addAuthor(authors);
-                    authorList = authorService.getAuthorList();
+                    authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case FORM:
                     destination = "authorForm.jsp";
                     String id = request.getParameter("id");
                     if(!id.equals("add")){
-                        request.setAttribute("authorName", authorService.getAuthorById(id).getAuthorName());
+                        request.setAttribute("authorName", authorService.find(id).getAuthorName());
                         request.setAttribute("authorId", id);
                     } else {
                         request.setAttribute("authorAdd", true);
