@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -108,6 +109,7 @@ public class Author implements Serializable {
         return bookSet;
     }
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     public void setBookSet(Set<Book> bookSet) {
         this.bookSet = bookSet;
     }
