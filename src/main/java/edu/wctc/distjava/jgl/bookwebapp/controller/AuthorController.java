@@ -65,18 +65,18 @@ public class AuthorController extends HttpServlet {
                 case EDIT:
                     System.out.println(authorService.find(request.getParameter("authorId")).getAuthorName());
                     List<Object> authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    authorService.updateAuthorDetails(authors, authorService.find(request.getParameter("authorId")).getAuthorId());
+                    //authorService.updateAuthorDetails(authors, authorService.find(request.getParameter("authorId")).getAuthorId());
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case DELETE:
-                    authorService.deleteAuthorById(request.getParameter("delete"));
+                    //authorService.deleteAuthorById(request.getParameter("delete"));
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case ADD:
                     authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    authorService.addAuthor(authors);
+                    //authorService.addAuthor(authors);
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
