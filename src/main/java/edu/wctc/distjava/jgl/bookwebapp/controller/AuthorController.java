@@ -15,11 +15,14 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
@@ -34,8 +37,8 @@ public class AuthorController extends HttpServlet {
     public static final String ADD = "add";
     public static final String FORM = "form";
     
-    @EJB
-    private AuthorService authorService;
+    
+    private AuthorService authorService = new AuthorService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,20 +66,16 @@ public class AuthorController extends HttpServlet {
                     request.setAttribute("authorList", authorList);
                     break;
                 case EDIT:
-                    System.out.println(authorService.find(request.getParameter("authorId")).getAuthorName());
-                    List<Object> authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    //authorService.updateAuthorDetails(authors, authorService.find(request.getParameter("authorId")).getAuthorId());
+                    authorService.updateAuthor(request.getParameter("authorId"), request.getParameter("authorName"));
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case DELETE:
-                    //authorService.deleteAuthorById(request.getParameter("delete"));
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
                 case ADD:
-                    authors = Arrays.asList(request.getParameter("authorName"), new Date());
-                    //authorService.addAuthor(authors);
+                    authorService.addAuthor(request.getParameter("authorName"));
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
@@ -84,7 +83,7 @@ public class AuthorController extends HttpServlet {
                     destination = "authorForm.jsp";
                     String id = request.getParameter("id");
                     if(!id.equals("add")){
-                        request.setAttribute("authorName", authorService.find(id).getAuthorName());
+                        request.setAttribute("authorName", authorService.findById(id));
                         request.setAttribute("authorId", id);
                     } else {
                         request.setAttribute("authorAdd", true);
@@ -106,7 +105,10 @@ public class AuthorController extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-
+        ServletContext sctx = getServletContext();
+        
+        WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sctx);
+        authorService = (AuthorService) ctx.getBean("authorService");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -147,5 +149,7 @@ public class AuthorController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    
 
 }
