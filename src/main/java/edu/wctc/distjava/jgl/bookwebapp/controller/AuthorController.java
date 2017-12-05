@@ -71,6 +71,7 @@ public class AuthorController extends HttpServlet {
                     request.setAttribute("authorList", authorList);
                     break;
                 case DELETE:
+                    authorService.removeAuthorById(request.getParameter("delete"));
                     authorList = authorService.findAll();
                     request.setAttribute("authorList", authorList);
                     break;
@@ -83,7 +84,7 @@ public class AuthorController extends HttpServlet {
                     destination = "authorForm.jsp";
                     String id = request.getParameter("id");
                     if(!id.equals("add")){
-                        request.setAttribute("authorName", authorService.findById(id));
+                        request.setAttribute("authorName", authorService.findById(id).getAuthorName());
                         request.setAttribute("authorId", id);
                     } else {
                         request.setAttribute("authorAdd", true);
@@ -94,7 +95,7 @@ public class AuthorController extends HttpServlet {
             
         } catch(Exception e) {
             destination = "/authorList.jsp";
-            request.setAttribute("errMessage", e.getMessage());
+            request.setAttribute("errMessage", "Error: " + e.getMessage());
         }
         
         RequestDispatcher view
